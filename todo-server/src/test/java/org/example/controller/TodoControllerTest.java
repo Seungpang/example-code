@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -63,8 +64,32 @@ class TodoControllerTest {
             .andExpect(jsonPath("$.title").value("title"));
     }
 
+//    @Test
+//    void readOne() {
+//        Integer.valueOf()
+//    }
+
+
     @Test
-    void readOne() {
+    public void test() throws Exception {
+        Integer integer1 = Integer.valueOf("100");
+        Integer integer2 = Integer.valueOf("100");
+        assertThat(integer1).isSameAs(integer2);
+
+
+        Integer integer3 = Integer.valueOf("200");
+        Integer integer4 = Integer.valueOf("200");
+        assertThat(integer3).isNotSameAs(integer4);
     }
-    
+
+
+    @Test
+    void stringTest() {
+        String s1 = "seungpang";
+        String s2 = "seungpang";
+        String s3 = new String("seungpang");
+
+        assertThat(s1 == s2).isTrue();
+        assertThat(s1 == s3).isFalse();
+    }
 }

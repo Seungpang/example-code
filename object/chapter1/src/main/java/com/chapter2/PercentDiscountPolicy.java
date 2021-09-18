@@ -1,6 +1,6 @@
 package com.chapter2;
 
-public class PercentDiscountPolicy extends DiscountPolicy {
+public class PercentDiscountPolicy extends DefaultDisCountPolicy {
 
     private double percent;
 

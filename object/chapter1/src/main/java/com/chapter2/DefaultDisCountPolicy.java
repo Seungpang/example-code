@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class DiscountPolicy {
+public abstract class DefaultDisCountPolicy implements DisCountPolicy {
 
     private List<DisCountCondition> conditions = new ArrayList<>();
 
-    public DiscountPolicy(DisCountCondition... conditions) {
+    public DefaultDisCountPolicy(DisCountCondition... conditions) {
         this.conditions = Arrays.asList(conditions);
     }
 

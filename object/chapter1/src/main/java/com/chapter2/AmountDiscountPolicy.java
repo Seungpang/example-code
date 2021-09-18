@@ -1,6 +1,6 @@
 package com.chapter2;
 
-public class AmountDiscountPolicy extends DiscountPolicy{
+public class AmountDiscountPolicy extends DefaultDisCountPolicy {
 
     private Money discountAmount;
 

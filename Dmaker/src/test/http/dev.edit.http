@@ -1,8 +1,2 @@
-PUT http://localhost:8080/developer/seungpang4
+DELETE http://localhost:8080/developer/seungpang4
 Content-Type: application/json
-
-{
-  "developerLevel": "JUNGNIOR",
-  "developerSkillType": "FRONT_END",
-  "experienceYears": 5
-}

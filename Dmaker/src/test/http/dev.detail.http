@@ -1,0 +1,2 @@
+GET http://localhost:8080/developer/seungpang4
+Accept: application/json

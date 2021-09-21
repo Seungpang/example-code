@@ -57,7 +57,7 @@ public class DMakerController {
         @PathVariable String memberId,
         @Valid @RequestBody EditDeveloper.Request request
     ) {
-        log.info("GET /developers HTTP/1.1");
+        log.info("PUT /developers HTTP/1.1");
 
         return dMakerService.editDeveloper(memberId, request);
     }
@@ -65,17 +65,5 @@ public class DMakerController {
     @DeleteMapping("/developer/{memberId}")
     public DeveloperDetailDto deleteDeveloper(@PathVariable String memberId) {
         return dMakerService.deleteDeveloper(memberId);
-    }
-
-    @ResponseStatus(value = HttpStatus.CONFLICT)
-    @ExceptionHandler(DMakerException.class)
-    public DMakerErrorResponse handleException(DMakerException e, HttpServletRequest request) {
-        log.error("errorCode: {}, url: {}, message: {}",
-            e.getDMakerErrorCode(), request.getRequestURI(), e.getDetailMessage());
-
-        return DMakerErrorResponse.builder()
-            .errorCode(e.getDMakerErrorCode())
-            .errorMessage(e.getDetailMessage())
-            .build();
     }
 }

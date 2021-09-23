@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -59,7 +60,7 @@ public class CreateDeveloper {
         private Integer experienceYears;
         private String memberId;
 
-        public static Response fromEntity(Developer developer) {
+        public static Response fromEntity(@NonNull Developer developer) {
             return Response.builder()
                 .developerLevel(developer.getDeveloperLevel())
                 .developerSkillType(developer.getDeveloperSkillType())

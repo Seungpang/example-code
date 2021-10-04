@@ -4,10 +4,13 @@ import com.seungpang.testspringbatch.job.validator.LocalDateParameterValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -57,10 +60,31 @@ public class AdvancedJobConfig {
         };
     }
 
+    @StepScope
+    @Bean
+    public StepExecutionListener stepExecutionListener() {
+        return new StepExecutionListener() {
+            @Override
+            public void beforeStep(StepExecution stepExecution) {
+                log.info("[stepExecutionListener#beforeStep] stepExecution is "
+                    + stepExecution.getStatus());
+            }
+
+            @Override
+            public ExitStatus afterStep(StepExecution stepExecution) {
+                log.info("[stepExecutionListener#afterStep] stepExecution is "
+                    + stepExecution.getStatus());
+                return stepExecution.getExitStatus();
+            }
+        };
+    }
+
     @JobScope
     @Bean
-    public Step advancedStep(Tasklet advancedTasklet) {
+    public Step advancedStep(StepExecutionListener stepExecutionListener,
+                                Tasklet advancedTasklet) {
         return stepBuilderFactory.get("advancedStep")
+            .listener(stepExecutionListener)
             .tasklet(advancedTasklet)
             .build();
     }

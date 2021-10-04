@@ -1,5 +1,6 @@
 package com.seungpang.testspringbatch.player;
 
+import com.seungpang.testspringbatch.core.service.PlayerSalaryService;
 import com.seungpang.testspringbatch.dto.PlayerDto;
 import com.seungpang.testspringbatch.dto.PlayerSalaryDto;
 import java.util.List;
@@ -11,7 +12,9 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.adapter.ItemProcessorAdapter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -36,10 +39,12 @@ public class FlatFileJobConfig {
 
     @JobScope
     @Bean
-    public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader) {
+    public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader,
+        ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> playerSalaryDtoItemProcessorAdapter) {
         return stepBuilderFactory.get("flatFileStep")
             .<PlayerDto, PlayerSalaryDto>chunk(5)
             .reader(playerFileItemReader)
+            .processor(playerSalaryDtoItemProcessorAdapter)
             .writer(new ItemWriter<PlayerSalaryDto>() {
                 @Override
                 public void write(List<? extends PlayerSalaryDto> items) throws Exception {
@@ -47,6 +52,30 @@ public class FlatFileJobConfig {
                 }
             })
             .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessorAdapter(
+        PlayerSalaryService playerSalaryService
+    ) {
+        ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> adapter = new ItemProcessorAdapter<>();
+        adapter.setTargetObject(playerSalaryService);
+        adapter.setTargetMethod("calcSalary");
+        return adapter;
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessor(
+        PlayerSalaryService playerSalaryService
+    ) {
+        return new ItemProcessor<PlayerDto, PlayerSalaryDto>() {
+            @Override
+            public PlayerSalaryDto process(PlayerDto item) throws Exception {
+                return playerSalaryService.calcSalary(item);
+            }
+        };
     }
 
     @StepScope

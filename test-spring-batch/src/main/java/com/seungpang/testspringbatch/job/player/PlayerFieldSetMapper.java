@@ -1,4 +1,4 @@
-package com.seungpang.testspringbatch.player;
+package com.seungpang.testspringbatch.job.player;
 
 import com.seungpang.testspringbatch.dto.PlayerDto;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;

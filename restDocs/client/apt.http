@@ -1,0 +1,27 @@
+# 1. Member 단일 호출
+GET {{host}}/api/members/1
+Content-Type: application/json
+
+###
+# 2. Member 생성
+POST {{host}}/api/members
+Content-Type: application/json
+
+{
+  "email": "obey1342@gmail.com",
+  "name": "seungpang"
+}
+
+###
+# 3. Member 수정
+PUT {{host}}/api/members/1
+Content-Type: application/json
+
+{
+  "name": "seung"
+}
+
+###
+# 4. Member 페이징
+GET {{host}}/api/members?page=0&size=5
+Content-Type: application/json

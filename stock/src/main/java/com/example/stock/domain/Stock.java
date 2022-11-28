@@ -36,6 +36,6 @@ public class Stock {
         if (this.quantity - quantity < 0) {
             throw new RuntimeException();
         }
-        this.quantity = this.quantity - quantity;
+        this.quantity -= quantity;
     }
 }

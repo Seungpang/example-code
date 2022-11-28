@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class StockServiceTest {
 
     @Autowired
-    private StockService stockService;
+    private PessimisticLockStockService stockService;
 
     @Autowired
     private StockRepository stockRepository;
@@ -50,7 +50,6 @@ class StockServiceTest {
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         final CountDownLatch latch = new CountDownLatch(threadCount);
 
-        //레이스컨디션 발생
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {

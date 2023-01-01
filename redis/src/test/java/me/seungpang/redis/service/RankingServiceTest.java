@@ -1,7 +1,5 @@
 package me.seungpang.redis.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;

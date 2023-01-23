@@ -357,3 +357,15 @@ appendfsync everysec
   - base file: 마지막 rewrite 시의 스냅샷을 저장
   - incremental file: 마지막으로 base file이 생성된 이후의 변경사항이 쌓임
   - manifest file: 파일들을 관리하기 위한 메타 데이터를 저장
+
+
+### Redis replication(복제)
+
+- 백업만으로는 장애 대비에 부족함(백업 실패 가능성, 복구에 소요되는 시간)
+- Redis도 복제를 통해 가용성을 확보하고 빠른 장애조치가 가능
+- master가 죽었을 경우 replica 중 하나를 master로 전환해 즉시 서비스 정상화 가능
+- 복제본(replica)은 read-only 노드로 사용 가능하므로 traffic 분산도 가능
+
+### Redis 복제 사용
+
+- Replica 노드에서만 설정을 적용해 master-replica 복제 구성 가능

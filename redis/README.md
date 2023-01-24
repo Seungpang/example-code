@@ -369,3 +369,23 @@ appendfsync everysec
 ### Redis 복제 사용
 
 - Replica 노드에서만 설정을 적용해 master-replica 복제 구성 가능
+
+### Redis Sentinel
+
+- Redis에서 HA(high availability)를 제공하기 위한 장치
+- master-replica 구조에서 master가 다운 시 replica를 master로 승격시키는 auto-failover를 수행
+
+### Redis Sentinel 실제 구성도
+
+- Sentinel 노드는 3개 이상으로 구성 (Quorum때문)
+- Sentinel들은 서로 연결되어 있음
+- Sentinel들은 Redis master와 replica를 모니터링
+- Client는 Sentinel을 통해 Redis에 접근
+
+### Redis Sentinel 특징
+
+- SDOWN(Subject down)과 ODOWN(Objective down)의 2가지 판단이 있음
+  - SDOWN: Sentinel 1대가 down으로 판단(주관적)
+  - ODOWN: 정족수가 충족되어 down으로 판단(객관적)
+- master 노드가 down 된걸로 판단되기 위해서는 Sentinel 노드들이 정족수(Quorum)을 충족해야함
+- 클라이언트는 Sentinel을 통해 master의 주소를 얻어내야 함

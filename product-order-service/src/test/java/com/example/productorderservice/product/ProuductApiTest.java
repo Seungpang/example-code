@@ -7,12 +7,11 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class ProuductApiTest extends ApiTest {
-    
+
     @Test
     void 상품등록() {
         final var request = 상품등록요청_생성();

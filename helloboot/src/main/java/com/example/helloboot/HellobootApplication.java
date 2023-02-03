@@ -20,6 +20,7 @@ public class HellobootApplication {
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
             final GenericApplicationContext applicationContext = new GenericApplicationContext();
             applicationContext.registerBean(HelloController.class);
+            applicationContext.registerBean(SimpleHelloService.class);
             applicationContext.refresh();
             servletContext.addServlet("frontcontroller", new HttpServlet() {
                 @Override

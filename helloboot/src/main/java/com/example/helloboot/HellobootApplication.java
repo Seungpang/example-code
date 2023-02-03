@@ -15,11 +15,10 @@ public class HellobootApplication {
         applicationContext.refresh();
 
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-        WebServer webServer = serverFactory.getWebServer(servletContext -> {
-            servletContext.addServlet("dispatcherServlet",
-                    new DispatcherServlet(applicationContext)
-            ).addMapping("/*");
-        });
+        WebServer webServer = serverFactory.getWebServer(
+                servletContext -> servletContext.addServlet("dispatcherServlet",
+                        new DispatcherServlet(applicationContext)
+                ).addMapping("/*"));
         webServer.start();
     }
 

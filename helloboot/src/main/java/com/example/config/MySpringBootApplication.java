@@ -1,6 +1,5 @@
 package com.example.config;
 
-import com.example.config.EnableMyAutoConfiguration;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -2,7 +2,6 @@ package com.example.config;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.StreamSupport;
 import org.springframework.boot.context.annotation.ImportCandidates;
 import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.core.type.AnnotationMetadata;

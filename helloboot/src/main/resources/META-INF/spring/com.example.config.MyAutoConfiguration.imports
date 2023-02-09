@@ -1,4 +1,4 @@
-com.example.config.autoconfig.ServerPropertiesConfig
+com.example.config.autoconfig.PropertyPostProcessorConfig
 com.example.config.autoconfig.PropertyPlaceholderConfig
 com.example.config.autoconfig.TomcatWebServerConfig
 com.example.config.autoconfig.JettyWebServerConfig

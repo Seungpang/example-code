@@ -1,3 +1,4 @@
+com.example.config.autoconfig.PropertyPlaceholderConfig
 com.example.config.autoconfig.TomcatWebServerConfig
 com.example.config.autoconfig.JettyWebServerConfig
 com.example.config.autoconfig.DispatcherServletConfig

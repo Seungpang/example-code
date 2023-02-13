@@ -5,9 +5,10 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 
-@HellobootTest class
-DataSourceTest {
+@JdbcTest
+class DataSourceTest {
     @Autowired
     DataSource dataSource;
 

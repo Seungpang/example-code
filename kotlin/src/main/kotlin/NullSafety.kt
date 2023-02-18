@@ -14,7 +14,7 @@ fun main() {
 
     //throw NullPointerException()
 
-    val c: String? = null
+    //val c: String? = null
 
 //    val a : String = null
 //    var b: String = "aa"

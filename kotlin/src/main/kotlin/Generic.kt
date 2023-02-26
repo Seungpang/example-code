@@ -5,7 +5,7 @@ class MyGenerics<out T>(val t: T) {
 class Bag<T> {
 
     fun saveAll(
-        to: MutableList<in ₩T>,
+        to: MutableList<in T>,
         from: MutableList<T>,
     ) {
         to.addAll(from)

@@ -63,4 +63,13 @@ class ResilientControllerTest {
         assertThat(response2.getBody()).isEqualTo("모든 재시도 요청 실패");
         EXTERNAL_SERVICE.verify(3, getRequestedFor(urlEqualTo("/api/external")));
     }
+
+    @Test
+    void testTimeLimiter() {
+        EXTERNAL_SERVICE.stubFor(WireMock.get("/api/external").willReturn(ok()));
+        ResponseEntity<String> response = restTemplate.getForEntity("/api/time-limiter", String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.REQUEST_TIMEOUT);
+        EXTERNAL_SERVICE.verify(1, getRequestedFor(urlEqualTo("/api/external")));
+    }
 }

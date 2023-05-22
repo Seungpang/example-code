@@ -1,5 +1,6 @@
 package me.seungpang.resilience4jexample;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -39,5 +40,11 @@ public class ResilientController {
     @TimeLimiter(name = "timeLimiterApi")
     public CompletableFuture<String> timeLimiterApi() {
         return CompletableFuture.supplyAsync(externalApiCaller::callApiWithDelay);
+    }
+
+    @GetMapping("/bulkhead")
+    @Bulkhead(name = "bulkheadApi")
+    public String bulkheadApi() {
+        return externalApiCaller.callApi();
     }
 }

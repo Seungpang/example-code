@@ -2,6 +2,7 @@ package me.seungpang.resilience4jexample;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,12 @@ public class ResilientController {
     @GetMapping("/bulkhead")
     @Bulkhead(name = "bulkheadApi")
     public String bulkheadApi() {
+        return externalApiCaller.callApi();
+    }
+
+    @GetMapping("/rate-limiter")
+    @RateLimiter(name = "rateLimiterApi")
+    public String rateLimitApi() {
         return externalApiCaller.callApi();
     }
 }

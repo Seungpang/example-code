@@ -16,9 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpStatus.BANDWIDTH_LIMIT_EXCEEDED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ResilientControllerTest {
@@ -95,5 +95,25 @@ class ResilientControllerTest {
         assertThat(responseStatusCount.containsKey(BANDWIDTH_LIMIT_EXCEEDED.value())).isTrue();
         assertThat(responseStatusCount.containsKey(OK.value())).isTrue();
         EXTERNAL_SERVICE.verify(3, getRequestedFor(urlEqualTo("/api/external")));
+    }
+
+    @Test
+    public void testRatelimiter() {
+        EXTERNAL_SERVICE.stubFor(WireMock.get("/api/external")
+                .willReturn(ok()));
+        Map<Integer, Integer> responseStatusCount = new ConcurrentHashMap<>();
+
+        IntStream.rangeClosed(1, 50)
+                .parallel()
+                .forEach(i -> {
+                    ResponseEntity<String> response = restTemplate.getForEntity("/api/rate-limiter", String.class);
+                    int statusCode = response.getStatusCodeValue();
+                    responseStatusCount.put(statusCode, responseStatusCount.getOrDefault(statusCode, 0) + 1);
+                });
+
+        assertThat(responseStatusCount.keySet().size()).isEqualTo(2);
+        assertThat(responseStatusCount.containsKey(TOO_MANY_REQUESTS.value())).isTrue();
+        assertThat(responseStatusCount.containsKey(OK.value())).isTrue();
+        EXTERNAL_SERVICE.verify(5, getRequestedFor(urlEqualTo("/api/external")));
     }
 }

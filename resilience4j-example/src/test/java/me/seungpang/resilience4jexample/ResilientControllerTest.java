@@ -47,4 +47,20 @@ class ResilientControllerTest {
 
         EXTERNAL_SERVICE.verify(5, getRequestedFor(urlEqualTo("/api/external")));
     }
+
+    @Test
+    void testRetry() {
+        EXTERNAL_SERVICE.stubFor(WireMock.get("/api/external")
+                .willReturn(ok()));
+        ResponseEntity<String> response1 = restTemplate.getForEntity("/api/retry", String.class);
+        EXTERNAL_SERVICE.verify(1, getRequestedFor(urlEqualTo("/api/external")));
+
+        EXTERNAL_SERVICE.resetRequests();
+
+        EXTERNAL_SERVICE.stubFor(WireMock.get("/api/external")
+                .willReturn(serverError()));
+        ResponseEntity<String> response2 = restTemplate.getForEntity("/api/retry", String.class);
+        assertThat(response2.getBody()).isEqualTo("모든 재시도 요청 실패");
+        EXTERNAL_SERVICE.verify(3, getRequestedFor(urlEqualTo("/api/external")));
+    }
 }

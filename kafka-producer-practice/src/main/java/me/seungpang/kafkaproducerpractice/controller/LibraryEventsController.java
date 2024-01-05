@@ -1,6 +1,7 @@
 package me.seungpang.kafkaproducerpractice.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import me.seungpang.kafkaproducerpractice.domain.LibraryEvent;
 import me.seungpang.kafkaproducerpractice.producer.LibraryEventsProducer;
@@ -25,13 +26,13 @@ public class LibraryEventsController {
 
     @PostMapping("/v1/libraryevent")
     public ResponseEntity<LibraryEvent> postLibraryEvent(
-            @RequestBody LibraryEvent libraryEvent
+            @RequestBody @Valid LibraryEvent libraryEvent
     ) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
         log.info("libraryEvent : {} ", libraryEvent);
         // invoke the kafka producer
         // libraryEventsProducer.sendLibraryEvent(libraryEvent);
-        libraryEventsProducer.sendLibraryEvent2(libraryEvent);
-        // libraryEventsProducer.sendLibraryEvent3(libraryEvent);
+        // libraryEventsProducer.sendLibraryEvent2(libraryEvent);
+        libraryEventsProducer.sendLibraryEvent3(libraryEvent);
 
         log.info("After Sending libraryEvent : ");
         return ResponseEntity.status(HttpStatus.CREATED)

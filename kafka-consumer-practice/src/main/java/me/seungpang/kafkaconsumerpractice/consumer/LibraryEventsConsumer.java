@@ -1,6 +1,8 @@
 package me.seungpang.kafkaconsumerpractice.consumer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
+import me.seungpang.kafkaconsumerpractice.service.LibraryEventsService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -9,8 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class LibraryEventsConsumer {
 
-    @KafkaListener(topics = {"library-events"}, containerFactory = )
-    public void onMessage(ConsumerRecord<Integer, String> consumerRecord) {
+    private final LibraryEventsService libraryEventsService;
+
+    public LibraryEventsConsumer(final LibraryEventsService libraryEventsService) {
+        this.libraryEventsService = libraryEventsService;
+    }
+
+    @KafkaListener(topics = {"library-events"})
+    public void onMessage(ConsumerRecord<Integer, String> consumerRecord) throws JsonProcessingException {
         log.info("ConsumerRecord : {} ", consumerRecord);
+        libraryEventsService.processLibraryEvent(consumerRecord);
     }
 }

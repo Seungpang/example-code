@@ -8,6 +8,7 @@ import me.seungpang.kafkaconsumerpractice.domain.LibraryEvent;
 import me.seungpang.kafkaconsumerpractice.domain.LibraryEventType;
 import me.seungpang.kafkaconsumerpractice.jpa.LibraryEventsRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.dao.RecoverableDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,6 +35,10 @@ public class LibraryEventsService {
     }
 
     private void validate(final LibraryEvent libraryEvent) {
+        if (libraryEvent != null && libraryEvent.getLibraryEventId() == 999) {
+            throw new RecoverableDataAccessException("Temporary Network Issue");
+        }
+
         if (libraryEvent.getLibraryEventId() == null) {
             throw new IllegalArgumentException("Library Event Id is missing");
         }

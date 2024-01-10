@@ -33,4 +33,12 @@ public class LibraryEvent {
     @OneToOne(mappedBy = "libraryEvent", cascade = {CascadeType.ALL})
     @ToString.Exclude
     private Book book;
+
+    public void changeLibraryEventType(final LibraryEventType libraryEventType) {
+        this.libraryEventType = libraryEventType;
+    }
+
+    public void updateBook(final Book book) {
+        this.book = book;
+    }
 }

@@ -47,7 +47,8 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EmbeddedKafka(topics = {"library-events", "library-events.RETRY", "library-events.DLT" }, partitions = 3)
 @TestPropertySource(properties = {"spring.kafka.producer.bootstrap-servers=${spring.embedded.kafka.brokers}",
-        "spring.kafka.consumer.bootstrap-servers=${spring.embedded.kafka.brokers}"})
+        "spring.kafka.consumer.bootstrap-servers=${spring.embedded.kafka.brokers}",
+"retryListener.startup=false"})
 class LibraryEventsConsumerIntegrationTest {
 
     @Autowired
@@ -146,8 +147,8 @@ class LibraryEventsConsumerIntegrationTest {
         CountDownLatch latch = new CountDownLatch(1);
         latch.await(5, TimeUnit.SECONDS);
 
-        verify(libraryEventsConsumerSpy, times(1)).onMessage(isA(ConsumerRecord.class));
-        verify(libraryEventsServiceSpy, times(1)).processLibraryEvent(isA(ConsumerRecord.class));
+        verify(libraryEventsConsumerSpy, times(3)).onMessage(isA(ConsumerRecord.class));
+        verify(libraryEventsServiceSpy, times(3)).processLibraryEvent(isA(ConsumerRecord.class));
     }
 
     @Test

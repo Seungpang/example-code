@@ -18,7 +18,7 @@ public class LibraryEventsRetryConsumer {
     }
 
     @KafkaListener(topics = {"${topics.retry}"},
-            autoStartup = "${retryListener.startup:true}",
+            autoStartup = "${retryListener.startup:false}",
         groupId = "retry-listener-group"
     )
     public void onMessage(ConsumerRecord<Integer, String> consumerRecord) throws JsonProcessingException {

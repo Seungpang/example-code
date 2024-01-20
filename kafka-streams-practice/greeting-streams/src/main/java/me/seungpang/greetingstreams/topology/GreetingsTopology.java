@@ -1,5 +1,7 @@
 package me.seungpang.greetingstreams.topology;
 
+import me.seungpang.greetingstreams.domain.Greeting;
+import me.seungpang.greetingstreams.serdes.SerdesFactory;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
@@ -16,26 +18,30 @@ public class GreetingsTopology {
     public static Topology buildTopology() {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
-        KStream<String, String> greetingsStream = streamsBuilder.
-                stream(GREETINGS
-//                        , Consumed.with(Serdes.String(), Serdes.String())
-                );
+        var greetingsStream = getCustomGreetingKStream(streamsBuilder);
 
         greetingsStream
-                .print(Printed.<String, String>toSysOut().withLabel("greetingsStream"));
+                .print(Printed.<String, Greeting>toSysOut().withLabel("greetingsStream"));
 
-        KStream<String, String> modifiedStream = greetingsStream
-                .filter((key, value) -> value.length() > 5)
-                .mapValues((readOnlyKey, value) -> value.toUpperCase());
-
-        modifiedStream
-                .print(Printed.<String, String>toSysOut().withLabel("modifiedStream"));
+        var modifiedStream = greetingsStream
+                .filter((key, value) -> value.message().length() > 5)
+                .mapValues((readOnlyKey, value) -> new Greeting(value.message().toUpperCase(), value.timeStamp()));
 
         modifiedStream
-                .to(GREETINGS_UPPERCASE
-//                        , Produced.with(Serdes.String(), Serdes.String())
-                );
+                .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
+
+        modifiedStream
+                .to(GREETINGS_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerde()));
 
         return streamsBuilder.build();
+    }
+
+    private static KStream<String, Greeting> getCustomGreetingKStream(final StreamsBuilder streamsBuilder) {
+        var greetingsStream = streamsBuilder.
+                stream(GREETINGS
+                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerde())
+                );
+
+        return greetingsStream;
     }
 }

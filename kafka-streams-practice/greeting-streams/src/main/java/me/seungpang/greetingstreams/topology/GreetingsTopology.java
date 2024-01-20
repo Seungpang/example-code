@@ -31,7 +31,7 @@ public class GreetingsTopology {
                 .print(Printed.<String, Greeting>toSysOut().withLabel("modifiedStream"));
 
         modifiedStream
-                .to(GREETINGS_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerde()));
+                .to(GREETINGS_UPPERCASE, Produced.with(Serdes.String(), SerdesFactory.greetingSerdeUsingGenerics()));
 
         return streamsBuilder.build();
     }
@@ -39,7 +39,7 @@ public class GreetingsTopology {
     private static KStream<String, Greeting> getCustomGreetingKStream(final StreamsBuilder streamsBuilder) {
         var greetingsStream = streamsBuilder.
                 stream(GREETINGS
-                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerde())
+                        , Consumed.with(Serdes.String(), SerdesFactory.greetingSerdeUsingGenerics())
                 );
 
         return greetingsStream;

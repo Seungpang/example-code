@@ -1,8 +1,6 @@
 package me.seungpang.greetingstreams.serdes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.seungpang.greetingstreams.domain.Greeting;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
@@ -10,9 +8,11 @@ import org.apache.kafka.common.serialization.Serializer;
 
 public class GreetingSerdes implements Serde<Greeting> {
 
-    private ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    private final ObjectMapper objectMapper;
+
+    public GreetingSerdes(final ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public Serializer<Greeting> serializer() {

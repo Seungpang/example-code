@@ -25,6 +25,9 @@ public class GreetingsStreamApp {
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
 
+        //Runtime.getRuntime().availableProcessors();
+        properties.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, "2");
+        
         createTopics(properties, List.of(GreetingsTopology.GREETINGS, GreetingsTopology.GREETINGS_UPPERCASE));
         var greetingsTopology = GreetingsTopology.buildTopology();
 

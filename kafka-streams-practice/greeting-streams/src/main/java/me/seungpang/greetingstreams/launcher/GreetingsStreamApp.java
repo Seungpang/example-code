@@ -1,6 +1,7 @@
 package me.seungpang.greetingstreams.launcher;
 
 import lombok.extern.slf4j.Slf4j;
+import me.seungpang.greetingstreams.exceptionhandler.StreamsDeserializationExceptionHandler;
 import me.seungpang.greetingstreams.topology.GreetingsTopology;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -26,7 +27,9 @@ public class GreetingsStreamApp {
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
         properties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG,
-                LogAndContinueExceptionHandler.class);
+                //LogAndContinueExceptionHandler.class
+                StreamsDeserializationExceptionHandler.class
+        );
 
         //Runtime.getRuntime().availableProcessors();
         properties.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, "2");

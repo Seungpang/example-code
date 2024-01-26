@@ -3,6 +3,7 @@ package me.seungpang.greetingstreams.launcher;
 import lombok.extern.slf4j.Slf4j;
 import me.seungpang.greetingstreams.exceptionhandler.StreamsDeserializationExceptionHandler;
 import me.seungpang.greetingstreams.exceptionhandler.StreamsProcessorCustomErrorHandler;
+import me.seungpang.greetingstreams.exceptionhandler.StreamsSerializationExceptionHandler;
 import me.seungpang.greetingstreams.topology.GreetingsTopology;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -30,6 +31,10 @@ public class GreetingsStreamApp {
         properties.put(StreamsConfig.DEFAULT_DESERIALIZATION_EXCEPTION_HANDLER_CLASS_CONFIG,
                 //LogAndContinueExceptionHandler.class
                 StreamsDeserializationExceptionHandler.class
+        );
+
+        properties.put(StreamsConfig.DEFAULT_PRODUCTION_EXCEPTION_HANDLER_CLASS_CONFIG,
+                StreamsSerializationExceptionHandler.class
         );
 
         //Runtime.getRuntime().availableProcessors();

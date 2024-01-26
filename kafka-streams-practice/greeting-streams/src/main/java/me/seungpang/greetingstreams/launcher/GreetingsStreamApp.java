@@ -2,6 +2,7 @@ package me.seungpang.greetingstreams.launcher;
 
 import lombok.extern.slf4j.Slf4j;
 import me.seungpang.greetingstreams.exceptionhandler.StreamsDeserializationExceptionHandler;
+import me.seungpang.greetingstreams.exceptionhandler.StreamsProcessorCustomErrorHandler;
 import me.seungpang.greetingstreams.topology.GreetingsTopology;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -38,6 +39,7 @@ public class GreetingsStreamApp {
         var greetingsTopology = GreetingsTopology.buildTopology();
 
         var kafkaStreams = new KafkaStreams(greetingsTopology, properties);
+        kafkaStreams.setUncaughtExceptionHandler(new StreamsProcessorCustomErrorHandler());
 
         Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
 

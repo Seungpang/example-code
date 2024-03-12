@@ -5,6 +5,11 @@ public class BookLoanRequest {
   private String userName;
   private String bookName;
 
+  public BookLoanRequest(final String userName, final String bookName) {
+    this.userName = userName;
+    this.bookName = bookName;
+  }
+
   public String getUserName() {
     return userName;
   }

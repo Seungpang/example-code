@@ -55,7 +55,7 @@ class UserServiceTest
         @Test
         fun updateUserNameTest() {
             val savedUser = userRepository.save(User("A", 20))
-            val request = UserUpdateRequest(savedUser.id, "B")
+            val request = UserUpdateRequest(savedUser.id!!, "B")
 
             userService.updateUserName(request)
 

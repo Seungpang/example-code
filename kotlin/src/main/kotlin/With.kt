@@ -1,3 +1,5 @@
+package main.kotlin
+
 fun main() {
 
     val str = "안녕하세요"

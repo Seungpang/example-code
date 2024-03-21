@@ -1,3 +1,5 @@
+package main.kotlin
+
 class HelloBot {
 
     val greeting: String by lazy(LazyThreadSafetyMode.PUBLICATION) {

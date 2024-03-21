@@ -1,3 +1,5 @@
+package main.kotlin
+
 enum class PaymentStatus(val label: String) : Payable {
     UNPAID("미지금") {
         override fun isPayable(): Boolean  = true

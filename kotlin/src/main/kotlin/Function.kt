@@ -1,3 +1,4 @@
+package main.kotlin
 // 기본적인 함수 선언 스타일
 fun sum(a: Int, b: Int) : Int {
     return a + b
@@ -24,7 +25,7 @@ fun greeting(message: String = "안녕하세요") {
     println(message)
 }
 
-//fun main() {
+//fun main.kotlin.main() {
 //    greeting()
 //    greeting("hi~")
 //}

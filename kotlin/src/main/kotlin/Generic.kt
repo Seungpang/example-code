@@ -1,3 +1,5 @@
+package main.kotlin
+
 class MyGenerics<out T>(val t: T) {
 
 }

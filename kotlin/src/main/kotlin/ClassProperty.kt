@@ -1,3 +1,5 @@
+package main.kotlin
+
 class Coffee (
     var name:String = "",
     var price: Int = 0,

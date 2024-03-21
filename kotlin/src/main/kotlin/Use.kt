@@ -1,3 +1,5 @@
+package main.kotlin
+
 import java.io.FileWriter
 
 fun main() {

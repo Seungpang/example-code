@@ -1,3 +1,5 @@
+package main.kotlin
+
 open class Dog {
     open var age : Int = 0
 

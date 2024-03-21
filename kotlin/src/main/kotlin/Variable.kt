@@ -1,3 +1,5 @@
+package main.kotlin
+
 var x = 5
 fun main() {
     x += 1

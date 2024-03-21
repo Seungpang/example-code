@@ -1,3 +1,4 @@
+package main.kotlin
 class LateExample {
 
     lateinit var text: String

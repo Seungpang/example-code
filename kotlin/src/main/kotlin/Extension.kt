@@ -1,4 +1,4 @@
-
+package main.kotlin
 fun String.first() : Char {
     return this[0]
 }

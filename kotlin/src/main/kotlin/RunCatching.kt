@@ -1,3 +1,5 @@
+package main.kotlin
+
 fun getStr(): Nothing = throw Exception("예외 발생 기본 값으로 초기화")
 
 fun main() {

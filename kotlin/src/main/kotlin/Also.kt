@@ -1,3 +1,5 @@
+package main.kotlin
+
 class User(val name: String, val password: String) {
 
     fun validate() {

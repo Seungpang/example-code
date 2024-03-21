@@ -1,3 +1,5 @@
+package main.kotlin
+
 class Product(val name: String, val price: Int)
 
 interface Wheel {

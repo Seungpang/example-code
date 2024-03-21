@@ -1,3 +1,5 @@
+package main.kotlin
+
 fun main() {
 
     // 자바의 while문과 동일

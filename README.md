@@ -1,0 +1,9 @@
+## 정리
++ k6
++ kafka
++ restDocs
++ spring-batch
++ redis
++ jpa
++ kotlin
++ oauth

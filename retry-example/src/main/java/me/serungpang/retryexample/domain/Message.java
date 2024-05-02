@@ -8,10 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@Table(name = "message")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Message {
 
@@ -28,10 +33,16 @@ public class Message {
     @Column(name = "likes", nullable = false)
     private Long likes;
 
-    public Message(final Long id, final String content, final Member author, final Long likes) {
-        this.id = id;
+    @Version
+    private Long version;
+
+    public Message(final String content, final Member author, final Long likes) {
         this.content = content;
         this.author = author;
         this.likes = likes;
+    }
+
+    public void like() {
+        this.likes = likes + 1;
     }
 }

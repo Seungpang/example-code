@@ -23,8 +23,7 @@ public class MessageLike {
     @Column(name = "message_id")
     private Long messageId;
 
-    public MessageLike(final Long id, final Long memberId, final Long messageId) {
-        this.id = id;
+    public MessageLike(final Long memberId, final Long messageId) {
         this.memberId = memberId;
         this.messageId = messageId;
     }

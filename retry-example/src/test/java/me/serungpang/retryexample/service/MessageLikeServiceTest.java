@@ -63,4 +63,21 @@ class MessageLikeServiceTest {
         assertThat(messageRepository.findById(1L).get().getLikes()).isEqualTo(100L);
     }
 
+    @Test
+    void aop_실제구현_좋아요_정합성_테스트() throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(100);
+        for (int i = 0; i < 100; i++) {
+            long userId = i + 1;
+            executorService.submit(() -> {
+                try {
+                    messageLikeService.likeMessageWithAop(userId, 1L);
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await();
+
+        assertThat(messageRepository.findById(1L).get().getLikes()).isEqualTo(100L);
+    }
 }

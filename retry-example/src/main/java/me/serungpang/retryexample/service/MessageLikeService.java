@@ -30,4 +30,14 @@ public class MessageLikeService {
         messageLikeRepository.save(new MessageLike(memberId, messageId));
         return new MessageLikeResponseDto(message.getLikes(), true);
     }
+
+    @RetryOnOptimisticLockingFailure(maxRetries = 5, delay = 100)
+    @Transactional
+    public MessageLikeResponseDto likeMessageWithAop(Long memberId, Long messageId) {
+        final Message message = messageRepository.findByIdForUpdate(messageId)
+                .orElseThrow(IllegalArgumentException::new);
+        message.like();
+        messageLikeRepository.save(new MessageLike(memberId, messageId));
+        return new MessageLikeResponseDto(message.getLikes(), true);
+    }
 }

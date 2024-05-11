@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:testdb;MODE=MYSQL
+
+    h2:
+      console:
+        enabled: true
+    jpa:
+      properties:
+        hibernate:
+          format_sql: true
+          dialect: org.hibernate.dialect.MySQLDialect
+          default_batch_fetch_size: 100
+          globally_quoted_identifiers: true
+      open-in-view: false
+      show-sql: true
+      hibernate:
+        ddl-auto: create-drop
+
+security:
+  jwt:
+    token:
+      secret-key: localSecretKeylocalSecretKeylocalSecretKeylocalSecretKeylocalSecretKey
+      access-token-expire-length: 3600000 # 1시간
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+    authorizationServerHost: https://kauth.kakao.com
+    resourceServerHost: https://kapi.kakao.com

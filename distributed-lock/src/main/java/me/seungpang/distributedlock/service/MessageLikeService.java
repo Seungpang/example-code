@@ -6,8 +6,8 @@ import me.seungpang.distributedlock.domain.MessageLike;
 import me.seungpang.distributedlock.domain.MessageLikeRepository;
 import me.seungpang.distributedlock.domain.MessageRepository;
 import me.seungpang.distributedlock.service.dto.MessageLikeResponseDto;
+import me.seungpang.distributedlock.support.DistributedLock;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class MessageLikeService {
     private final MessageRepository messageRepository;
     private final MessageLikeRepository messageLikeRepository;
 
-    @Transactional
+    @DistributedLock(key = "#abc")
     public MessageLikeResponseDto likeMessage(Long memberId, Long messageId) {
         final Message message = messageRepository.findByIdForUpdate(messageId)
                 .orElseThrow(IllegalArgumentException::new);

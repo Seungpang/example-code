@@ -1,0 +1,74 @@
+#resilience4j.circuitbreaker:
+#  configs:
+#    default:
+#      registerHealthIndicator: true
+#      slidingWindowSize: 10
+#      minimumNumberOfCalls: 5
+#      permittedNumberOfCallsInHalfOpenState: 3
+#      automaticTransitionFromOpenToHalfOpenEnabled: true
+#      waitDurationInOpenState: 5s
+#      failureRateThreshold: 50
+#      eventConsumerBufferSize: 10
+#  instances:
+#    CircuitBreakerService:
+#      baseConfig: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    circuitbreakers:
+      enabled: 'true'
+    ratelimiters:
+      enabled: 'true'
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  ratelimiter:
+    instances:
+      rateLimiterApi:
+        timeout-duration: 0s
+        limit-refresh-period: 60s
+        event-consumer-buffer-size: '50'
+        register-health-indicator: 'true'
+        subscribe-for-events: 'true'
+        allow-health-indicator-to-fail: 'true'
+        limit-for-period: '5'
+    metrics:
+      enabled: 'true'
+  timelimiter:
+    metrics:
+      enabled: 'true'
+    instances:
+      timeLimiterApi:
+        timeout-duration: 2s
+        cancel-running-future: 'true'
+  circuitbreaker:
+    instances:
+      CircuitBreakerService:
+        permitted-number-of-calls-in-half-open-state: '3'
+        automatic-transition-from-open-to-half-open-enabled: 'true'
+        sliding-window-size: '10'
+        wait-duration-in-open-state: 5s
+        minimum-number-of-calls: '5'
+        failure-rate-threshold: '50'
+        sliding-window-type: count_based
+  bulkhead:
+    metrics:
+      enabled: 'true'
+    instances:
+      bulkheadApi:
+        max-wait-duration: '1'
+        max-concurrent-calls: '3'
+  retry:
+    instances:
+      retryApi:
+        max-attempts: '3'
+        wait-duration: 1s
+    metrics:
+      enabled: 'true'
+      legacy:
+        enabled: 'true'

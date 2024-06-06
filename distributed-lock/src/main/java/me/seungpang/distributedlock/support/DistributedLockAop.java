@@ -29,25 +29,26 @@ public class DistributedLockAop {
         DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
 
         String key = REDISSON_LOCK_PREFIX + CustomSpringELParser.getDynamicValue(signature.getParameterNames(), joinPoint.getArgs(), distributedLock.key());
-        RLock rLock = redissonClient.getLock(key);  // (1)
+        RLock rLock = redissonClient.getLock(key);
 
         try {
-            boolean available = rLock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());  // (2)
+            boolean available = rLock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
             if (!available) {
+                log.warn("Unable to acquire lock on method: {} with key: {}", method.getName(), key);
                 return false;
             }
 
-            return aopForTransaction.proceed(joinPoint);  // (3)
+            return aopForTransaction.proceed(joinPoint);
         } catch (InterruptedException e) {
             throw new InterruptedException();
         } finally {
             try {
-                rLock.unlock();   // (4)
-            } catch (IllegalMonitorStateException e) {
-                System.out.printf("Redisson Lock Already UnLock {} {}",
-                        method.getName(),
-                        key
-                );
+                if (rLock.isHeldByCurrentThread()) {
+                    rLock.unlock();
+                    log.debug("Lock released on method: {} with key: {}", method.getName(), key);
+                }
+            } catch (Exception e) {
+                log.error("Unexpected error occurred while releasing lock on method: {} with key: {}", method.getName(), key, e);
             }
         }
     }

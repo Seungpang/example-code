@@ -18,7 +18,7 @@ public class MessageLikeService {
 
     @DistributedLock(key = "#messageId")
     public MessageLikeResponseDto likeMessage(Long memberId, Long messageId) {
-        final Message message = messageRepository.findByIdForUpdate(messageId)
+        final Message message = messageRepository.findById(messageId)
                 .orElseThrow(IllegalArgumentException::new);
         message.like();
         messageLikeRepository.save(new MessageLike(memberId, messageId));

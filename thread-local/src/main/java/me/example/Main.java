@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    private static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     private static void simulateMemoryLeak() {
         ThreadLocal<byte[]> threadLocal = new ThreadLocal<>();

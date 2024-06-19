@@ -1,2 +1,6 @@
 server:
   host: http://localhost:8080
+
+springdoc:
+  swagger-ui:
+    path: /custom/swagger.html

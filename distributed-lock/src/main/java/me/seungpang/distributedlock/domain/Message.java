@@ -31,9 +31,6 @@ public class Message {
     @Column(name = "likes", nullable = false)
     private Long likes;
 
-    @Version
-    private Long version;
-
     public Message(final String content, final Member author, final Long likes) {
         this.content = content;
         this.author = author;

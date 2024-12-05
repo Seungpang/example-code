@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,9 +42,12 @@ class MessageLikeServiceTest {
         databaseCleaner.execute();
         final Member member = memberRepository.save(new Member("abc"));
         messageRepository.save(new Message("aaaa", member, 0L));
+        List<Member> members = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
-            memberRepository.save(new Member("seungapng" + i));
+            new Member("seungpang" + i);
         }
+
+        memberRepository.saveAll(members);
     }
 
     @Test
